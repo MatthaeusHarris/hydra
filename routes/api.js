@@ -14,7 +14,7 @@ module.exports = function(instances) {
 		console.log(instances);
 		var service = req.params.service;
 		var version = req.params.version;
-		var path = req.params.path;
+		var path = req.params.path || '';
 		var numHosts = 0, targetHost = {}, targetNum = -1, hostKeys = [];
 		if (instances[service]) {
 			console.log(service + ' found');
@@ -42,6 +42,12 @@ module.exports = function(instances) {
 	}
 
 	router.route('/:service/:version/:path')
+		.post(api_handler)
+		.get(api_handler)
+		.put(api_handler)
+		.delete(api_handler);
+
+	router.route('/:service/:version/')
 		.post(api_handler)
 		.get(api_handler)
 		.put(api_handler)

@@ -7,6 +7,8 @@ block content
     each instanceList, version in services
       .versionblock 
         h3= version
+        p endpoint: 
+          a(class='endpointlink', href='/api/#{serviceName}/#{version}/') api/#{serviceName}/#{version}/
         table
           tr
             th hostname
