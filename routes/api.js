@@ -48,5 +48,5 @@ module.exports = function(instances) {
 		.delete(api_handler);
 
 	return router;
-}
+};
 

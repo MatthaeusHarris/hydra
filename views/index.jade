@@ -1,5 +1,24 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Services available
+  each services, serviceName in instances
+    h2= serviceName
+    each instanceList, version in services
+      .versionblock 
+        h3= version
+        table
+          tr
+            th hostname
+            th port
+            th version
+            th timestamp
+            th address
+          each instanceData, instance in instanceList
+            tr
+              td #{instance}
+              td #{instanceData.port}
+              td #{instanceData.version}
+              td #{instanceData.timestamp}
+              td #{instanceData.address}
+

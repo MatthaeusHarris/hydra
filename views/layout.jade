@@ -3,5 +3,10 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type='text/javascript', src='/javascripts/jquery-2.1.1.min.js')
   body
-    block content
+    #header
+        img(src='/images/hydra.png', width='100px', height='100px')
+        h1 Splunk>Hydra
+    #body
+        block content

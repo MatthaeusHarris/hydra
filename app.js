@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
+var ui_api = require('./routes/ui_api');
 
 var instances = {hydra: {}};
 
@@ -27,9 +28,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+app.use('/', routes(instances));
 app.use('/users', users);
 app.use('/api', api(instances));
+app.use('/ui_api', ui_api(instances));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
