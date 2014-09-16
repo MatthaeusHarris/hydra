@@ -64,5 +64,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-registration(instances);
+registration.initialize(instances, {});
 module.exports = app;

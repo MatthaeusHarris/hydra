@@ -1,0 +1,31 @@
+{
+	"eureka": {
+		"0.0.1": {
+			"hostname": {
+				"hostname": "hostname",
+				"port": 5000,
+				"version": "0.0.1",
+				"timestamp": "Mon Sep 15 2014 16:02:43 GMT-0700",
+				"address": "10.0.0.1"
+			}
+		}
+	},
+	"sidecar": {
+		"0.0.1": {
+			"hostname": {
+				"hostname": "hostname",
+				"port": 5000,
+				"version": "0.0.1",
+				"timestamp": "Mon Sep 15 2014 16:02:43 GMT-0700",
+				"address": "10.0.0.1"
+			},
+			"hostname2": {
+				"hostname": "hostname2",
+				"port": 5000,
+				"version": "0.0.1",
+				"timestamp": "Mon Sep 15 2014 16:02:43 GMT-0700",
+				"address": "10.0.0.2"
+			}
+		}
+	}
+}

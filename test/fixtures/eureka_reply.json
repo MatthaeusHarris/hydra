@@ -1,0 +1,187 @@
+{
+  "applications": {
+    "versions__delta": 1,
+    "apps__hashcode": "UP_3_",
+    "application": [
+      {
+        "name": "SIDECAR",
+        "instance": [
+          {
+            "hostName": "frankenstein4",
+            "app": "SIDECAR",
+            "ipAddr": "10.13.6.48",
+            "status": "UP",
+            "overriddenstatus": "UNKNOWN",
+            "port": {
+              "@enabled": "true",
+              "$": "5000"
+            },
+            "securePort": {
+              "@enabled": "false",
+              "$": "7002"
+            },
+            "countryId": 1,
+            "dataCenterInfo": {
+              "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+              "name": "MyOwn"
+            },
+            "leaseInfo": {
+              "renewalIntervalInSecs": 30,
+              "durationInSecs": 90,
+              "registrationTimestamp": 1410820073585,
+              "lastRenewalTimestamp": 1410820168587,
+              "evictionTimestamp": 0,
+              "serviceUpTimestamp": 1410820073543
+            },
+            "metadata": {
+              "version": "0.0.1"
+            },
+            "isCoordinatingDiscoveryServer": false,
+            "lastUpdatedTimestamp": 1410820073585,
+            "lastDirtyTimestamp": 1410820073543,
+            "actionType": "ADDED"
+          },
+          {
+            "hostName": "frankenstein3",
+            "app": "SIDECAR",
+            "ipAddr": "10.13.6.48",
+            "status": "UP",
+            "overriddenstatus": "UNKNOWN",
+            "port": {
+              "@enabled": "true",
+              "$": "5000"
+            },
+            "securePort": {
+              "@enabled": "false",
+              "$": "7002"
+            },
+            "countryId": 1,
+            "dataCenterInfo": {
+              "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
+              "name": "MyOwn"
+            },
+            "leaseInfo": {
+              "renewalIntervalInSecs": 30,
+              "durationInSecs": 90,
+              "registrationTimestamp": 1410820045563,
+              "lastRenewalTimestamp": 1410820170091,
+              "evictionTimestamp": 0,
+              "serviceUpTimestamp": 1410820045070
+            },
+            "metadata": {
+              "version": "0.0.1"
+            },
+            "isCoordinatingDiscoveryServer": false,
+            "lastUpdatedTimestamp": 1410820045563,
+            "lastDirtyTimestamp": 1410820045054,
+            "actionType": "ADDED"
+          }
+        ]
+      },
+      {
+        "name": "EUREKA",
+        "instance": {
+          "hostName": "ec2-54-165-101-15.compute-1.amazonaws.com",
+          "app": "EUREKA",
+          "ipAddr": "127.0.1.1",
+          "status": "UP",
+          "overriddenstatus": "UNKNOWN",
+          "port": {
+            "@enabled": "true",
+            "$": "80"
+          },
+          "securePort": {
+            "@enabled": "false",
+            "$": "443"
+          },
+          "countryId": 1,
+          "dataCenterInfo": {
+            "@class": "com.netflix.appinfo.AmazonInfo",
+            "name": "Amazon",
+            "metadata": {
+              "availability-zone": "us-east-1c",
+              "public-ipv4": "54.165.101.15",
+              "instance-id": "i-5f13d9b4",
+              "public-hostname": "ec2-54-165-101-15.compute-1.amazonaws.com",
+              "local-ipv4": "10.220.11.78",
+              "ami-id": "ami-0683596e",
+              "instance-type": "m3.medium"
+            }
+          },
+          "leaseInfo": {
+            "renewalIntervalInSecs": 30,
+            "durationInSecs": 90,
+            "registrationTimestamp": 1410795672056,
+            "lastRenewalTimestamp": 1410820160585,
+            "evictionTimestamp": 0,
+            "serviceUpTimestamp": 1410795641898
+          },
+          "metadata": {
+            "@class": "java.util.Collections$EmptyMap"
+          },
+          "appGroupName": "UNKNOWN",
+          "homePageUrl": "http://ec2-54-165-101-15.compute-1.amazonaws.com:80/",
+          "statusPageUrl": "http://ec2-54-165-101-15.compute-1.amazonaws.com:80/Status",
+          "healthCheckUrl": "http://ec2-54-165-101-15.compute-1.amazonaws.com:80/healthcheck",
+          "vipAddress": "eureka.mydomain.net",
+          "isCoordinatingDiscoveryServer": true,
+          "lastUpdatedTimestamp": 1410795672056,
+          "lastDirtyTimestamp": 1410795642502,
+          "actionType": "ADDED"
+        }
+      },
+      {
+        "name": "SINGLE",
+        "instance": {
+          "hostName": "single-hostname",
+          "app": "SINGLE",
+          "ipAddr": "127.0.1.1",
+          "status": "UP",
+          "overriddenstatus": "UNKNOWN",
+          "port": {
+            "@enabled": "true",
+            "$": "80"
+          },
+          "securePort": {
+            "@enabled": "false",
+            "$": "443"
+          },
+          "countryId": 1,
+          "dataCenterInfo": {
+            "@class": "com.netflix.appinfo.AmazonInfo",
+            "name": "Amazon",
+            "metadata": {
+              "availability-zone": "us-east-1c",
+              "public-ipv4": "54.165.101.15",
+              "instance-id": "i-5f13d9b4",
+              "public-hostname": "ec2-54-165-101-15.compute-1.amazonaws.com",
+              "local-ipv4": "10.220.11.78",
+              "ami-id": "ami-0683596e",
+              "instance-type": "m3.medium"
+            }
+          },
+          "leaseInfo": {
+            "renewalIntervalInSecs": 30,
+            "durationInSecs": 90,
+            "registrationTimestamp": 1410795672056,
+            "lastRenewalTimestamp": 1410820160585,
+            "evictionTimestamp": 0,
+            "serviceUpTimestamp": 1410795641898
+          },
+          "metadata": {
+            "version": "0.0.1"
+          },
+          "appGroupName": "UNKNOWN",
+          "homePageUrl": "http://ec2-54-165-101-15.compute-1.amazonaws.com:80/",
+          "statusPageUrl": "http://ec2-54-165-101-15.compute-1.amazonaws.com:80/Status",
+          "healthCheckUrl": "http://ec2-54-165-101-15.compute-1.amazonaws.com:80/healthcheck",
+          "vipAddress": "eureka.mydomain.net",
+          "isCoordinatingDiscoveryServer": true,
+          "lastUpdatedTimestamp": 1410795672056,
+          "lastDirtyTimestamp": 1410795642502,
+          "actionType": "ADDED"
+        }
+      }
+    ]
+  }
+}
