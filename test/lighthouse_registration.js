@@ -6,8 +6,8 @@ var fixtures = {
 	eureka_single_reply: require('./fixtures/eureka_single_reply.json')
 };
 
-describe('lighthouse registration', function() {
-	it ('basic unit tests', function() {
+describe('eureka interface', function() {
+	it ('has the proper attributes', function() {
 		lighthouse_registration.should.be.an.Object;
 		lighthouse_registration.client.should.be.an.Object;
 		lighthouse_registration.instances.should.be.an.Object;

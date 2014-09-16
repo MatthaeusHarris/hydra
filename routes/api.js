@@ -4,9 +4,7 @@ var httpProxy = require('http-proxy');
 var router = express.Router();
 var proxy = httpProxy.createProxy();
 
-var randomInt = function(low, high) {
-	return Math.floor(Math.random() * (high - low) + low);
-}
+var randomInt = require('../lib/random');
 
 module.exports = function(instances) {
 	var api_handler = function(req, res) {
@@ -53,6 +51,10 @@ module.exports = function(instances) {
 		.put(api_handler)
 		.delete(api_handler);
 
-	return router;
+	return {
+		router: router,
+		api_handler: api_handler,
+		instances: instances
+	};
 };
 
