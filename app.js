@@ -64,5 +64,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-registration.initialize(instances, {});
+registration.initialize(instances, {registration_url: 'http://eureka.services.splunkcloud.net/eureka/v2/apps'});
 module.exports = app;
