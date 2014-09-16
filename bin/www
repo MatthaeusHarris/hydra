@@ -17,7 +17,8 @@ var server = app.listen(app.get('port'), function() {
     hostname: process.env.HOSTNAME || "frankenstein",
     metadata: {
       version: process.env.VERSION || '0.0.1'
-   	}
+   	},
+   	timer: 10
 	};
 	sidecar.initialize(sidecar_options);
 });

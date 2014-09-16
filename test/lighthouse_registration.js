@@ -2,7 +2,8 @@ var should = require('should');
 var sinon = require('sinon');
 var lighthouse_registration = require('../lib/lighthouse_registration');
 var fixtures = {
-	eureka_reply: require('./fixtures/eureka_reply.json')
+	eureka_reply: require('./fixtures/eureka_reply.json'),
+	eureka_single_reply: require('./fixtures/eureka_single_reply.json')
 };
 
 describe('lighthouse registration', function() {
@@ -52,6 +53,12 @@ describe('lighthouse registration', function() {
 						'hostname', 'port', 'version', 'timestamp', 'address']);
 				}
 			});
+		});
+
+		it ('parses a single service eureka service object with no valid services', function() {
+			lighthouse_registration.parse_eureka_reply(fixtures.eureka_single_reply, {statusCode: 200});
+			var instances = lighthouse_registration.instances;
+			Object.keys(instances).should.have.length(0);
 		});
 
 		it ('throws an error when it encounters an HTTP error', function() {

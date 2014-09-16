@@ -1,0 +1,57 @@
+{
+  "applications": {
+    "versions__delta": 1,
+    "apps__hashcode": "UP_1_",
+    "application": {
+      "name": "EUREKA",
+      "instance": {
+        "hostName": "10.220.10.90",
+        "app": "EUREKA",
+        "ipAddr": "127.0.1.1",
+        "status": "UP",
+        "overriddenstatus": "UNKNOWN",
+        "port": {
+          "@enabled": "true",
+          "$": "80"
+        },
+        "securePort": {
+          "@enabled": "false",
+          "$": "443"
+        },
+        "countryId": 1,
+        "dataCenterInfo": {
+          "@class": "com.netflix.appinfo.AmazonInfo",
+          "name": "Amazon",
+          "metadata": {
+            "availability-zone": "us-east-1b",
+            "instance-id": "i-6923f687",
+            "public-hostname": "10.220.10.90",
+            "local-ipv4": "10.220.10.90",
+            "ami-id": "ami-ce9d32a6",
+            "instance-type": "m3.medium"
+          }
+        },
+        "leaseInfo": {
+          "renewalIntervalInSecs": 30,
+          "durationInSecs": 90,
+          "registrationTimestamp": 1410890128500,
+          "lastRenewalTimestamp": 1410904921576,
+          "evictionTimestamp": 0,
+          "serviceUpTimestamp": 1410890098081
+        },
+        "metadata": {
+          "@class": "java.util.Collections$EmptyMap"
+        },
+        "appGroupName": "UNKNOWN",
+        "homePageUrl": "http://10.220.10.90:80/",
+        "statusPageUrl": "http://10.220.10.90:80/Status",
+        "healthCheckUrl": "http://10.220.10.90:80/healthcheck",
+        "vipAddress": "eureka.mydomain.net",
+        "isCoordinatingDiscoveryServer": true,
+        "lastUpdatedTimestamp": 1410890128500,
+        "lastDirtyTimestamp": 1410890102489,
+        "actionType": "ADDED"
+      }
+    }
+  }
+}
