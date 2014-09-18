@@ -22,7 +22,7 @@ describe('eureka interface', function() {
 	describe('eureka reply parsing', function() {
 		describe('positive tests', function() {
 			var instances = {};
-			before(function(done) {
+			beforeEach(function(done) {
 				lighthouse_registration.parse_eureka_reply(fixtures.eureka_reply, {statusCode: 200});	
 				instances = lighthouse_registration.instances;
 				done();
@@ -123,14 +123,14 @@ describe('eureka interface', function() {
 		var clock;
 
 		describe ('timer tests', function() {
-			before(function(done) {
+			beforeEach(function(done) {
 				checkin_stub = sinon.stub(lighthouse_registration, 'checkin');
 				clock = sinon.useFakeTimers();
 				lighthouse_registration.initialize(instances, options);
 				done();
 			});
 
-			after(function(done) {
+			afterEach(function(done) {
 				lighthouse_registration.checkin.restore();
 				clock.restore();
 				done();
@@ -143,14 +143,14 @@ describe('eureka interface', function() {
 		});
 
 
-		before(function(done) {
+		beforeEach(function(done) {
 			// post_stub = sinon.stub(lighthouse_registration.client, 'post');
 			get_stub = sinon.stub(lighthouse_registration.client, 'get');
 			clock = sinon.useFakeTimers();
 			done();
 		});
 
-		after(function(done) {
+		afterEach(function(done) {
 			// lighthouse_registration.client.post.restore();
 			lighthouse_registration.client.get.restore();
 			clock.restore();

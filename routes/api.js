@@ -8,33 +8,35 @@ var randomInt = require('../lib/random');
 
 module.exports = function(instances) {
 	var api_handler = function(req, res) {
-		console.log(req.params);
-		console.log(instances);
+		// console.log(req.params);
+		// console.log(instances);
 		var service = req.params.service;
 		var version = req.params.version;
 		var path = req.params.path || '';
 		var numHosts = 0, targetHost = {}, targetNum = -1, hostKeys = [];
 		if (instances[service]) {
-			console.log(service + ' found');
+			// console.log(service + ' found');
 			if (instances[service][version]) {
 				hostKeys = Object.keys(instances[service][version])
 				numHosts = hostKeys.length;
-				console.log(numHosts + ' instances in service');	
+				// console.log(numHosts + ' instances in service');	
 				targetNum = randomInt(0, numHosts);
 				targetHost = instances[service][version][hostKeys[targetNum]];
-				console.log('Using ' + JSON.stringify(targetHost));
+				// console.log('Using ' + JSON.stringify(targetHost));
 
-				console.log(req.url);
-				console.log(path);
+				// console.log(req.url);
+				// console.log(path);
 				req.url = '/' + path;
 				proxy.web(req, res, {
 					target: 'http://' + targetHost['address'] + ':' + targetHost['port']
 				});
 
 			} else {
+				// console.log("No services of that version available");
 				res.status(503).json({result: 'service unavailable'});
 			}
 		} else {
+			// console.log("I don't know that service.");
 			res.status(503).json({result: 'unknown service'});
 		}
 	}
@@ -54,7 +56,8 @@ module.exports = function(instances) {
 	return {
 		router: router,
 		api_handler: api_handler,
-		instances: instances
+		instances: instances,
+		proxy: proxy
 	};
 };
 
