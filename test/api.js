@@ -2,7 +2,6 @@ var should = require('should');
 var sinon = require('sinon');
 var instances = {};
 var api = require('../routes/api')(instances);
-var repl = require('repl');
 
 describe('api route', function() {
 	it ('has the proper attributes', function() {
