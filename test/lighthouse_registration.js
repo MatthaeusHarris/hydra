@@ -2,11 +2,12 @@ var should = require('should');
 var sinon = require('sinon');
 var lighthouse_registration = require('../lib/lighthouse_registration');
 var fixtures = {
-	eureka_reply: require('./fixtures/eureka_reply.json')
+	eureka_reply: require('./fixtures/eureka_reply.json'),
+	eureka_single_reply: require('./fixtures/eureka_single_reply.json')
 };
 
-describe('lighthouse registration', function() {
-	it ('basic unit tests', function() {
+describe('eureka interface', function() {
+	it ('has the proper attributes', function() {
 		lighthouse_registration.should.be.an.Object;
 		lighthouse_registration.client.should.be.an.Object;
 		lighthouse_registration.instances.should.be.an.Object;
@@ -21,7 +22,7 @@ describe('lighthouse registration', function() {
 	describe('eureka reply parsing', function() {
 		describe('positive tests', function() {
 			var instances = {};
-			before(function(done) {
+			beforeEach(function(done) {
 				lighthouse_registration.parse_eureka_reply(fixtures.eureka_reply, {statusCode: 200});	
 				instances = lighthouse_registration.instances;
 				done();
@@ -52,6 +53,12 @@ describe('lighthouse registration', function() {
 						'hostname', 'port', 'version', 'timestamp', 'address']);
 				}
 			});
+		});
+
+		it ('parses a single service eureka service object with no valid services', function() {
+			lighthouse_registration.parse_eureka_reply(fixtures.eureka_single_reply, {statusCode: 200});
+			var instances = lighthouse_registration.instances;
+			Object.keys(instances).should.have.length(0);
 		});
 
 		it ('throws an error when it encounters an HTTP error', function() {
@@ -110,20 +117,20 @@ describe('lighthouse registration', function() {
 			registration_url: 'http://localhost:8080/api/instances'
 		};
 
-		var post_stub;
+		// var post_stub;
 		var get_stub;
 		var checkin_stub;
 		var clock;
 
 		describe ('timer tests', function() {
-			before(function(done) {
+			beforeEach(function(done) {
 				checkin_stub = sinon.stub(lighthouse_registration, 'checkin');
 				clock = sinon.useFakeTimers();
 				lighthouse_registration.initialize(instances, options);
 				done();
 			});
 
-			after(function(done) {
+			afterEach(function(done) {
 				lighthouse_registration.checkin.restore();
 				clock.restore();
 				done();
@@ -136,30 +143,29 @@ describe('lighthouse registration', function() {
 		});
 
 
-		before(function(done) {
-			post_stub = sinon.stub(lighthouse_registration.client, 'post');
+		beforeEach(function(done) {
+			// post_stub = sinon.stub(lighthouse_registration.client, 'post');
 			get_stub = sinon.stub(lighthouse_registration.client, 'get');
 			clock = sinon.useFakeTimers();
 			done();
 		});
 
-		after(function(done) {
-			lighthouse_registration.client.post.restore();
+		afterEach(function(done) {
+			// lighthouse_registration.client.post.restore();
 			lighthouse_registration.client.get.restore();
 			clock.restore();
 			done();
 		});
 
 		it ('makes the proper REST calls', function() {
-			post_stub.callsArgWith(2, null, {statusCode: 200});
-			get_stub.callsArgWith(1, fixtures.eureka_reply, {statusCode: 200});
+			// post_stub.callsArgWith(2, null, {statusCode: 200});
+			get_stub.callsArgWith(2, fixtures.eureka_reply, {statusCode: 200});
 
 			lighthouse_registration.initialize(instances, options);
 			clock.tick(options.registration_interval);
 
-			post_stub.called.should.be.true;
+			// post_stub.called.should.be.true;
 			get_stub.called.should.be.true;
 		});
 	});
-
 });
