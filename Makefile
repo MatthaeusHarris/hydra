@@ -12,4 +12,4 @@ test_requirements:
 clean: 
 	rm -rf coverage/*
 
-func_test: test
+func_test: test_requirements, test
