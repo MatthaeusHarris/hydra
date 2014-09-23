@@ -1,0 +1,69 @@
+---
+# Main task list for webserver role
+
+- name: Update APT repo cache
+  apt: update_cache=yes
+
+- name: Install necessary packages
+  apt: name={{ item }} state=latest
+  with_items: required_packages
+
+- name: Setup www directory structure
+  file: path="{{ microservice_home }}" mode=0755 state=directory recurse=yes
+
+- name: copy source code to microservice directory
+  local_action: synchronize src="{{ ansible_home }}/" dest="{{ microservice_home }}" recursive=yes
+
+- name: Install required npm modules
+  command: npm install 
+  args:
+    chdir: "{{ microservice_home }}"
+
+- name: Repermission microservice
+  shell: "chown -R {{ www_user }}.{{ www_user }} .*"
+  args:
+    chdir: "{{ microservice_home }}"
+
+- name: Drop microservice supervisord conf
+  template: src="supervisor_microservice.conf.j2" dest="/etc/supervisor/conf.d/{{ microservice_name }}.conf"
+
+- name: Disable nginx's default site
+  file: path="{{ nginx_home }}/sites-enabled/default" state=absent
+
+- name: Drop nginx.conf
+  template: src=nginx.conf.j2 dest="{{ microservice_home }}/nginx.conf"
+
+- name: Symlink nginx conf
+  file: src="{{ microservice_home }}/nginx.conf" dest="{{ nginx_home }}/conf.d/nginx.conf" state=link
+
+- name: Drop .htpasswd for nginx
+  copy: src=microservice.htpasswd dest={{ nginx_home }} force=yes
+
+- name: Drop monit config
+  copy: src=monitrc.conf dest={{ monit_home }}/monitrc force=yes
+
+- name: Drop nginx monit config
+  copy: src=nginx_monit.conf dest={{ monit_home }}/conf.d force=yes
+
+- name: Enable nginx
+  service: name=nginx enabled=yes
+
+- name: Enable monit
+  service: name=monit enabled=yes
+
+- name: Enable supervisord
+  service: name=supervisor enabled=yes state=restarted
+
+- name: Create microservice's splunk app directory
+  file: path=/opt/splunkforwarder/etc/apps/{{ microservice_name }}/default/ mode=0755 state=directory recurse=yes
+
+- name: Drop inputs.conf for Lifegaurd
+  copy: src=inputs.conf dest=/opt/splunkforwarder/etc/apps/{{ microservice_name }}/default/inputs.conf force=yes
+
+- name: Drop build number for future use
+  shell: "echo {{ jenkins_build_number }} >> /etc/buildnumber"
+
+# Eureka sidecar stuff
+
+- name: Install Eureka Sidecar
+  npm: name=git+https://github.com/SplunkStorm/eureka-sidecar.git state=present global=yes

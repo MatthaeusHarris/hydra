@@ -21,7 +21,7 @@ describe('api route', function() {
 			[
 				api.router.stack[0].route.path,
 				api.router.stack[1].route.path
-			].should.containEql('/:service/:version/:path', '/:service/:version');
+			].should.containEql('/:service/:version/:path*', '/:service/:version');
 		});
 
 		it ('each endpoint has the proper methods', function() {
