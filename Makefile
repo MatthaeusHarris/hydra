@@ -4,3 +4,12 @@ test: .FORCE
 	istanbul report cobertura
 
 .FORCE:
+
+test_requirements:
+	@echo "Installing test requirements"
+	npm install
+
+clean: 
+	rm -rf coverage/*
+
+func_test: test
