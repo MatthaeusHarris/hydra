@@ -1,3 +1,6 @@
+all:
+	@echo "Target not provided"
+
 test: .FORCE
 	istanbul cover node_modules/.bin/_mocha
 	istanbul report clover
@@ -12,4 +15,4 @@ test_requirements:
 clean: 
 	rm -rf coverage/*
 
-func_test: test_requirements, test
+func_test: test_requirements test
