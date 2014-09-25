@@ -165,4 +165,61 @@ describe('api route', function() {
 			});
 		});
 	});
+
+	describe('api_handler HEAD function', function() {
+		var proxy_stub, res_stub, req_mock, req;
+
+		beforeEach(function(done) {
+			proxy_stub = sinon.stub(api.proxy, 'web');
+			req = {
+				params: {
+					service: 'dummyservice',
+					version: 'HEAD',
+					path: 'endpoint/path'
+				},
+				url: '/dummyservice/HEAD/endpoint/path'
+			};
+			instances = require('./fixtures/head_instances.json');
+			api = require('../routes/api')(instances);
+
+			res_stub = {
+				status: sinon.stub(),
+				json: sinon.stub()
+			};
+
+			res_stub.status.returns(res_stub);
+			res_stub.json.returns(res_stub);
+
+			done();
+		});
+
+		afterEach(function(done) {
+			proxy_stub.restore();
+			done();
+		});
+
+		it ("loads the correct instances", function() {
+			api.instances.should.have.keys(['dummyservice', 'nonexistent']);
+			api.instances.dummyservice.should.have.keys(['0.0.1', '0.0.2']);
+		});
+
+		describe('HEAD version provided, services exist', function() {
+			it ("proxies the request", function() {
+				proxy_stub.called.should.be.false;
+				api.api_handler(req, res_stub);
+				proxy_stub.called.should.be.true;
+			});
+
+			it ("errors properly when no instances exist", function() {
+				res_stub.status.called.should.be.false;
+				res_stub.json.called.should.be.false;
+				req.params.service = "nonexistent";
+				req.url = "/nonexistent/HEAD/endpoint/path";
+				api.api_handler(req, res_stub);
+				res_stub.status.calledWith(503).should.be.true;
+				console.log(res_stub.json.getCall(0));
+				res_stub.json.calledWith({result: 'service unavailable'}).should.be.true;
+			});
+		});
+	});
 });

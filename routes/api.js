@@ -14,30 +14,48 @@ module.exports = function(instances) {
 		var version = req.params.version;
 		var path = req.params.path || '';
 		var numHosts = 0, targetHost = {}, targetNum = -1, hostKeys = [];
-		if (instances[service]) {
-			// console.log(service + ' found');
-			if (instances[service][version]) {
-				hostKeys = Object.keys(instances[service][version])
-				numHosts = hostKeys.length;
-				// console.log(numHosts + ' instances in service');	
-				targetNum = randomInt(0, numHosts);
-				targetHost = instances[service][version][hostKeys[targetNum]];
-				// console.log('Using ' + JSON.stringify(targetHost));
+		var possibleHosts = [];
+		try {
+			if (instances[service]) {
+				// console.log(service + ' found');
+				if (version == 'HEAD') {
+					for (var version in instances[service]) {
+						for (var host in instances[service][version]) {
+							possibleHosts.push(instances[service][version][host]);
+						}
+					}
+					if (possibleHosts.length > 0) {
+						targetNum = randomInt(0, possibleHosts.length);
+						targetHost = possibleHosts[targetNum];
+					} else {
+						throw new Error('service unavailable');
+					}
+				} else {
+					if (instances[service][version]) {
+						hostKeys = Object.keys(instances[service][version])
+						numHosts = hostKeys.length;
+						// console.log(numHosts + ' instances in service');	
+						targetNum = randomInt(0, numHosts);
+						targetHost = instances[service][version][hostKeys[targetNum]];
+						// console.log('Using ' + JSON.stringify(targetHost));
 
-				// console.log(req.url);
-				// console.log(path);
+						// console.log(req.url);
+						// console.log(path);
+					} else {
+						throw new Error('service unavailable');
+					}
+				}
 				req.url = '/' + path;
 				proxy.web(req, res, {
 					target: 'http://' + targetHost['address'] + ':' + targetHost['port']
 				});
-
 			} else {
-				// console.log("No services of that version available");
-				res.status(503).json({result: 'service unavailable'});
+				throw new Error('unknown service');
 			}
-		} else {
+		} catch(e) {
 			// console.log("I don't know that service.");
-			res.status(503).json({result: 'unknown service'});
+			console.log(e);
+			res.status(503).json({result: e.message});
 		}
 	}
 
