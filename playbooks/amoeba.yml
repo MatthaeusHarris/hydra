@@ -1,0 +1,9 @@
+---
+# Ansible playbook for building a microservice ami thru the amoeba build pipeline
+- name: Build Hydra AMI
+  hosts: localhost
+  gather_facts: False
+  user: ubuntu
+  sudo: True
+  roles:
+    - webserver

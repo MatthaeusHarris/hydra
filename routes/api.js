@@ -8,7 +8,7 @@ var randomInt = require('../lib/random');
 
 module.exports = function(instances) {
 	var api_handler = function(req, res) {
-		// console.log(req.params);
+		console.log(req.params);
 		// console.log(instances);
 		var service = req.params.service;
 		var version = req.params.version;
@@ -59,7 +59,7 @@ module.exports = function(instances) {
 		}
 	}
 
-	router.route('/:service/:version/:path')
+	router.route('/:service/:version/:path*')
 		.post(api_handler)
 		.get(api_handler)
 		.put(api_handler)

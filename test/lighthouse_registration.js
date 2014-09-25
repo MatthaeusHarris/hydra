@@ -53,6 +53,15 @@ describe('eureka interface', function() {
 						'hostname', 'port', 'version', 'timestamp', 'address']);
 				}
 			});
+
+			it ('removes stale hosts from instances', function() {
+				lighthouse_registration.instances.should.have.keys(['sidecar', 'single']);
+				// console.log(fixtures.eureka_single_reply.applications.application);
+				lighthouse_registration.parse_eureka_reply(fixtures.eureka_single_reply, {statusCode: 200});
+				// console.log(lighthouse_registration.instances);
+				// console.log(Object.keys(lighthouse_registration.instances));
+				Object.keys(lighthouse_registration.instances).should.have.length(0);
+			});
 		});
 
 		it ('parses a single service eureka service object with no valid services', function() {

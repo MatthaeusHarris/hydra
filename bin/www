@@ -2,6 +2,17 @@
 var debug = require('debug')('hydra');
 var app = require('../app');
 var sidecar = require('eureka-sidecar');
+var os = require('os');
+var fs = require('fs');
+var metadata = require('../package.json');
+
+var address = os.networkInterfaces();
+if (address.eth0) {
+	address = address.eth0.filter(function(a) {
+		return a.family == 'IPv4';
+	})[0].address;
+}
+
 require('longjohn');
 
 app.set('port', process.env.PORT || 3000);
@@ -11,12 +22,12 @@ var server = app.listen(app.get('port'), function() {
   
 	var sidecar_options = {
     eureka_url: "http://eureka.services.splunkcloud.net/eureka",
-    app: "hydra",
-    "ip-address": "127.0.0.1",
+    app: metadata.name,
+    "ip-address": address,
     "app-port": process.env.PORT || 3000,
-    hostname: process.env.HOSTNAME || "frankenstein",
+    hostname: process.env.HOSTNAME || os.hostname(),
     metadata: {
-      version: process.env.VERSION || '0.0.1'
+      version: process.env.VERSION || metadata.version
    	},
    	timer: 10
 	};
