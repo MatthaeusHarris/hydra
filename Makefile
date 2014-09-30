@@ -10,7 +10,7 @@ test: .FORCE
 
 test_requirements:
 	@echo "Installing test requirements"
-	npm install
+	sudo npm install
 
 clean: 
 	rm -rf coverage/*
