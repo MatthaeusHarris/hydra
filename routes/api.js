@@ -12,7 +12,7 @@ module.exports = function(instances) {
 		// console.log(instances);
 		var service = req.params.service;
 		var version = req.params.version;
-		var path = req.params.path || '';
+		var path = req.params[0] || '';
 		var numHosts = 0, targetHost = {}, targetNum = -1, hostKeys = [];
 		var possibleHosts = [];
 		try {
@@ -59,11 +59,14 @@ module.exports = function(instances) {
 		}
 	}
 
-	router.route('/:service/:version/:path*')
+//	router.route('/:service/:version/:path*')
+	router.route('/:service/:version/*')
 		.post(api_handler)
 		.get(api_handler)
 		.put(api_handler)
 		.delete(api_handler);
+
+//	router.route('/:service/:version/*
 
 	router.route('/:service/:version/')
 		.post(api_handler)
