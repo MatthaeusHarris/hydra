@@ -1,0 +1,24 @@
+---
+# Env
+# Relative path from current directory
+hydra_home: "../../../../"
+hydra_www:  "/var/www/html/hydra/"
+microservice_home: "/var/microservice/hydra"
+
+
+# Directories HACK ( can't exclude directory and rsync/synchronize not working propertly with 
+# VAGRANT at this time ) Need to figure out a better way ( maybe via command ) 
+source:
+  - bin
+  - lib
+  - node_modules
+  - public
+  - routes
+  - scripts
+  - views
+  - app.js
+  - package.json
+
+required_packages:
+  - npm
+  - git

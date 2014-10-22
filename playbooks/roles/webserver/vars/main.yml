@@ -1,0 +1,25 @@
+---
+# Env
+microservice_name: "hydra"
+ansible_home: "/var/lib/ansible/project"
+microservice_home: "/var/microservice/hydra"
+www_path: "/var/www/html/hydra/src"
+nginx_home: "/etc/nginx"
+monit_home: "/etc/monit"
+log_root: "/var/log/"
+www_user: "www-data"
+
+# Packages
+required_packages:
+ - nginx
+ - build-essential
+ - monit
+ - apache2-utils
+ - supervisor
+
+# Python Virtual Env packages
+required_pip_packages:
+  - flask
+  - flask-restful
+  - flask-restful-swagger
+  - blinker

@@ -1,0 +1,12 @@
+---
+# Ansible playbook for building Caspian microservice running in Vagrant instance
+- name: Playbook for building a Vagrant Box 
+  hosts: all
+  user: vagrant 
+  sudo: True
+  vars:
+    vagrant_env:  true
+    jenkins_build_number: 42
+  roles: 
+    - { role: vagrant,   tags: 'vagrant' }
+    - { role: webserver, tags: 'vagrant' }

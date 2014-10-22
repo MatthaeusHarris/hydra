@@ -4,6 +4,7 @@ var router = express.Router();
 module.exports = function(instances) {
 	router.route('/instances')
 		.get(function(req, res) {
+			console.log(req);
 			res.json(instances);
 		});
 

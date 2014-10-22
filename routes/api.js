@@ -4,48 +4,69 @@ var httpProxy = require('http-proxy');
 var router = express.Router();
 var proxy = httpProxy.createProxy();
 
-var randomInt = function(low, high) {
-	return Math.floor(Math.random() * (high - low) + low);
-}
+var randomInt = require('../lib/random');
 
 module.exports = function(instances) {
 	var api_handler = function(req, res) {
 		console.log(req.params);
-		console.log(instances);
+		// console.log(instances);
 		var service = req.params.service;
 		var version = req.params.version;
-		var path = req.params.path || '';
+		var path = req.params[0] || '';
 		var numHosts = 0, targetHost = {}, targetNum = -1, hostKeys = [];
-		if (instances[service]) {
-			console.log(service + ' found');
-			if (instances[service][version]) {
-				hostKeys = Object.keys(instances[service][version])
-				numHosts = hostKeys.length;
-				console.log(numHosts + ' instances in service');	
-				targetNum = randomInt(0, numHosts);
-				targetHost = instances[service][version][hostKeys[targetNum]];
-				console.log('Using ' + JSON.stringify(targetHost));
+		var possibleHosts = [];
+		try {
+			if (instances[service]) {
+				// console.log(service + ' found');
+				if (version == 'HEAD') {
+					for (var version in instances[service]) {
+						for (var host in instances[service][version]) {
+							possibleHosts.push(instances[service][version][host]);
+						}
+					}
+					if (possibleHosts.length > 0) {
+						targetNum = randomInt(0, possibleHosts.length);
+						targetHost = possibleHosts[targetNum];
+					} else {
+						throw new Error('service unavailable');
+					}
+				} else {
+					if (instances[service][version]) {
+						hostKeys = Object.keys(instances[service][version])
+						numHosts = hostKeys.length;
+						// console.log(numHosts + ' instances in service');	
+						targetNum = randomInt(0, numHosts);
+						targetHost = instances[service][version][hostKeys[targetNum]];
+						// console.log('Using ' + JSON.stringify(targetHost));
 
-				console.log(req.url);
-				console.log(path);
+						// console.log(req.url);
+						// console.log(path);
+					} else {
+						throw new Error('service unavailable');
+					}
+				}
 				req.url = '/' + path;
 				proxy.web(req, res, {
 					target: 'http://' + targetHost['address'] + ':' + targetHost['port']
 				});
-
 			} else {
-				res.status(503).json({result: 'service unavailable'});
+				throw new Error('unknown service');
 			}
-		} else {
-			res.status(503).json({result: 'unknown service'});
+		} catch(e) {
+			// console.log("I don't know that service.");
+			console.log(e);
+			res.status(503).json({result: e.message});
 		}
 	}
 
-	router.route('/:service/:version/:path')
+//	router.route('/:service/:version/:path*')
+	router.route('/:service/:version/*')
 		.post(api_handler)
 		.get(api_handler)
 		.put(api_handler)
 		.delete(api_handler);
+
+//	router.route('/:service/:version/*
 
 	router.route('/:service/:version/')
 		.post(api_handler)
@@ -53,6 +74,11 @@ module.exports = function(instances) {
 		.put(api_handler)
 		.delete(api_handler);
 
-	return router;
+	return {
+		router: router,
+		api_handler: api_handler,
+		instances: instances,
+		proxy: proxy
+	};
 };
 
