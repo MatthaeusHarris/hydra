@@ -13,6 +13,7 @@
 
 - name: copy source code to microservice directory
   local_action: synchronize src="{{ ansible_home }}/" dest="{{ microservice_home }}" recursive=yes
+  when: not vagrant_env
 
 - name: Install required npm modules
   command: npm install 
@@ -38,6 +39,16 @@
 
 - name: Drop .htpasswd for nginx
   copy: src=microservice.htpasswd dest={{ nginx_home }} force=yes
+
+# SET SSL for Nginx
+- name: Setup nginx SSL home
+  file: path="{{ nginx_home }}/ssl"  state=directory recurse=yes
+
+- name: Drop server.cert for nginx
+  copy: src=server.cert dest={{ nginx_home }}/ssl force=yes
+
+- name: Drop server.key for nginx
+  copy: src=server.key dest={{ nginx_home }}/ssl force=yes mode=0400
 
 - name: Drop monit config
   copy: src=monitrc.conf dest={{ monit_home }}/monitrc force=yes

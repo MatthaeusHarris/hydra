@@ -5,5 +5,7 @@
   gather_facts: False
   user: ubuntu
   sudo: True
+  vars:
+    vagrant_env:  false
   roles:
     - webserver

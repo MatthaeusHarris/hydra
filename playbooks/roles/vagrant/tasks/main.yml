@@ -1,0 +1,29 @@
+---
+- name: Create /var/www/html/ directory struture
+  file: path="{{ hydra_www }}" mode=0755 state=directory recurse=yes
+
+- name: Setup www directory structure
+  file: path="{{ microservice_home }}" mode=0755 state=directory recurse=yes
+
+- name: Copy Hydra microservice to HOME directory 
+  unarchive: src=/tmp/hydra.tgz dest="{{ microservice_home }}"
+  tags: vagrant
+
+# Look into creating a Vagrant package list in the VARS directory
+- name: Update APT repo cache
+  apt: update_cache=yes
+
+- name: Install emacs 
+  apt: pkg=emacs state=latest
+  tags: vagrant
+
+- name: Install Packages
+  apt: pkg={{ item }} state=latest
+  with_items: required_packages 
+  tags: vagrant
+
+- name: Install PPA 
+  shell: /vagrant/scripts/install_ppa.sh
+
+- name: Install Node version 
+  apt:  pkg=nodejs  state=latest
